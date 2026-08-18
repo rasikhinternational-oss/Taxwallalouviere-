@@ -58,9 +58,13 @@
     overflow:hidden;border-bottom:1px solid var(--line);
   }
   .hero-bg{
-    position:absolute;inset:0;background-size:cover;background-position:center;
-    opacity:0.28;z-index:0;
+    position:absolute;inset:0;z-index:0;
   }
+  .hero-slide{
+    position:absolute;inset:0;background-size:cover;background-position:center;
+    opacity:0;transition:opacity 1.5s ease-in-out;
+  }
+  .hero-slide.active{opacity:0.28;}
   .hero-inner{position:relative;z-index:1;}
   .hero h1{
     font-size:1.8rem;max-width:700px;margin:0 auto 14px;
@@ -181,7 +185,7 @@
 <header>
   <div class="header-inner">
     <div class="brand">
-      <img src="https://taxiwal.com/logo-taxiwal.jpg" alt="Taxi Wal">
+      <img src="images/logo-hero.jpg" alt="Taxi Wal La Louvière">
       <div class="brand-name">Taxi Wal</div>
       <span class="badge">La Louvière · Centre</span>
     </div>
@@ -193,7 +197,12 @@
 </header>
 
 <section class="hero">
-  <div class="hero-bg" style="background-image:url('https://taxiwal.com/hero-flotte.jpg');"></div>
+  <div class="hero-bg">
+    <div class="hero-slide active" style="background-image:url('images/flotte-groupe.jpg');"></div>
+    <div class="hero-slide" style="background-image:url('images/hero-2.jpg');"></div>
+    <div class="hero-slide" style="background-image:url('images/hero-3.jpg');"></div>
+    <div class="hero-slide" style="background-image:url('images/hero-4.jpg');"></div>
+  </div>
   <div class="hero-inner">
     <h1>Taxi Wal La Louvière — <span>Navette Aéroport</span> & Chauffeur privé, quand vous en avez besoin</h1>
     <p>Navette aéroport, trajets sur mesure, entreprises et événements. Véhicules confortables, chauffeurs professionnels, disponibles 24h/24 — 7j/7 sur La Louvière et tout le Centre.</p>
@@ -259,16 +268,20 @@
   <h2>Nos véhicules</h2>
   <div class="fleet-grid">
     <div class="fleet-card">
-      <img src="https://taxiwal.com/renault-trafic.jpg" alt="Renault Trafic 7 places">
+      <img src="images/renault-trafic.jpg" alt="Renault Trafic 7 places">
       <div class="fleet-card-body"><strong>Renault Trafic</strong><span>7 places — idéal familles et groupes</span></div>
     </div>
     <div class="fleet-card">
-      <img src="https://taxiwal.com/bmw-serie5.jpg" alt="BMW Série 5">
+      <img src="images/bmw-serie5.jpg" alt="BMW Série 5">
       <div class="fleet-card-body"><strong>BMW Série 5</strong><span>Haut de gamme — confort affaires</span></div>
     </div>
     <div class="fleet-card">
-      <img src="https://taxiwal.com/mercedes-classe-e.jpg" alt="Mercedes Classe E">
+      <img src="images/mercedes-classe-e.jpg" alt="Mercedes Classe E">
       <div class="fleet-card-body"><strong>Mercedes Classe E</strong><span>Haut de gamme — élégance et confort</span></div>
+    </div>
+    <div class="fleet-card">
+      <img src="images/toyota-corolla.jpg" alt="Toyota Corolla Break">
+      <div class="fleet-card-body"><strong>Toyota Corolla Break</strong><span>Polyvalent — trajets quotidiens et aéroport</span></div>
     </div>
   </div>
 </section>
@@ -316,6 +329,16 @@
   <a href="tel:+32495353594" class="fab fab-mail">📞</a>
   <a href="https://wa.me/32495353594" class="fab fab-whatsapp">💬</a>
 </div>
+
+<script>
+  let heroSlide = 0;
+  const heroSlides = document.querySelectorAll('.hero-slide');
+  setInterval(() => {
+    heroSlides[heroSlide].classList.remove('active');
+    heroSlide = (heroSlide + 1) % heroSlides.length;
+    heroSlides[heroSlide].classList.add('active');
+  }, 4000);
+</script>
 
 </body>
 </html>

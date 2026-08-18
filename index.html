@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Taxi Wal — Chauffeur privé & Navettes aéroport | La Louvière, Centre</title>
+<meta name="description" content="Taxi Wal : chauffeur privé, navette aéroport, transport PMR, entreprises et événements. La Louvière, Centre (La Louvière). Réservation rapide, 24h/24.">
+<style>
+  :root{
+    --bg:#0d0f10;
+    --bg-alt:#151819;
+    --red:#c8102e;
+    --green:#1f8a4c;
+    --text:#f4f4f2;
+    --muted:#b7bdb9;
+    --line:#242827;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Segoe UI',Roboto,Arial,sans-serif;
+    line-height:1.5;
+  }
+  a{color:inherit;text-decoration:none;}
+  img{max-width:100%;display:block;}
+
+  header{
+    position:sticky;top:0;z-index:50;
+    background:rgba(13,15,16,0.95);
+    border-bottom:1px solid var(--line);
+    backdrop-filter:blur(6px);
+  }
+  .header-inner{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:10px 16px;max-width:1200px;margin:0 auto;
+  }
+  .brand{display:flex;align-items:center;gap:10px;}
+  .brand img{width:36px;height:36px;border-radius:8px;object-fit:cover;}
+  .brand-name{font-weight:700;font-size:1.1rem;}
+  .badge{
+    background:var(--red);color:#fff;font-size:0.65rem;
+    padding:3px 8px;border-radius:20px;font-weight:600;
+    letter-spacing:0.03em;
+  }
+  .header-actions{display:flex;align-items:center;gap:10px;}
+  .btn-whatsapp{
+    background:var(--green);color:#fff;padding:8px 14px;
+    border-radius:20px;font-size:0.85rem;font-weight:600;
+  }
+  .menu-btn{
+    background:none;border:1px solid var(--line);color:var(--text);
+    font-size:1.2rem;padding:6px 12px;border-radius:8px;cursor:pointer;
+  }
+
+  .hero{
+    position:relative;padding:60px 16px 40px;text-align:center;
+    overflow:hidden;border-bottom:1px solid var(--line);
+  }
+  .hero-bg{
+    position:absolute;inset:0;background-size:cover;background-position:center;
+    opacity:0.28;z-index:0;
+  }
+  .hero-inner{position:relative;z-index:1;}
+  .hero h1{
+    font-size:1.8rem;max-width:700px;margin:0 auto 14px;
+    line-height:1.3;
+  }
+  .hero h1 span{color:var(--red);}
+  .hero p{color:var(--muted);max-width:560px;margin:0 auto 24px;}
+  .hero-ctas{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
+  .btn{
+    padding:12px 22px;border-radius:24px;font-weight:600;
+    font-size:0.95rem;cursor:pointer;border:none;
+  }
+  .btn-primary{background:var(--red);color:#fff;}
+  .btn-outline{background:transparent;color:var(--text);border:1px solid var(--line);}
+
+  section{padding:44px 16px;max-width:1100px;margin:0 auto;}
+  .eyebrow{
+    color:var(--green);font-size:0.75rem;font-weight:700;
+    letter-spacing:0.08em;text-transform:uppercase;margin-bottom:6px;
+  }
+  h2{font-size:1.4rem;margin-bottom:20px;}
+
+  .grid{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+    gap:12px;
+  }
+  .card{
+    background:var(--bg-alt);border:1px solid var(--line);
+    border-radius:12px;padding:16px;cursor:pointer;
+    transition:border-color .2s;
+  }
+  .card:hover{border-color:var(--red);}
+  .card-icon{font-size:1.4rem;margin-bottom:8px;}
+  .card-title{font-weight:600;font-size:0.92rem;}
+  .card-desc{color:var(--muted);font-size:0.82rem;margin-top:6px;display:none;}
+  .card.open .card-desc{display:block;}
+
+  .services-grid{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+    gap:12px;
+  }
+  .service-card{
+    background:var(--bg-alt);border:1px solid var(--line);
+    border-radius:12px;padding:18px;position:relative;cursor:pointer;
+  }
+  .service-plus{
+    position:absolute;top:10px;right:10px;width:20px;height:20px;
+    border-radius:50%;background:var(--red);color:#fff;
+    display:flex;align-items:center;justify-content:center;font-size:0.85rem;
+  }
+  .service-icon{font-size:1.4rem;margin-bottom:8px;}
+  .service-card p{color:var(--muted);font-size:0.85rem;margin-top:6px;}
+
+  /* Fleet */
+  .fleet-grid{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:14px;
+  }
+  .fleet-card{
+    background:var(--bg-alt);border:1px solid var(--line);
+    border-radius:12px;overflow:hidden;cursor:pointer;
+  }
+  .fleet-card img{height:120px;width:100%;object-fit:cover;}
+  .fleet-card-body{padding:12px;}
+  .fleet-card-body strong{font-size:0.9rem;}
+  .fleet-card-body span{display:block;color:var(--muted);font-size:0.78rem;margin-top:4px;}
+
+  .accordion{border:1px solid var(--line);border-radius:10px;margin-bottom:8px;overflow:hidden;}
+  .accordion-head{
+    padding:14px;display:flex;justify-content:space-between;align-items:center;
+    cursor:pointer;background:var(--bg-alt);font-weight:600;
+  }
+  .accordion-body{display:none;padding:14px;color:var(--muted);font-size:0.9rem;}
+  .accordion.open .accordion-body{display:block;}
+
+  .reviews-track{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:8px;}
+  .review{
+    min-width:260px;scroll-snap-align:start;background:var(--bg-alt);
+    border:1px solid var(--line);border-radius:12px;padding:16px;
+  }
+  .review .stars{color:#f5b301;margin-bottom:8px;}
+  .review p{font-size:0.88rem;color:var(--muted);margin-bottom:8px;}
+  .review .author{font-size:0.8rem;font-weight:600;}
+
+  .booking{background:var(--bg-alt);border-radius:16px;padding:24px;border:1px solid var(--line);}
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;}
+  input,textarea,select{
+    width:100%;padding:11px;border-radius:8px;border:1px solid var(--line);
+    background:var(--bg);color:var(--text);font-size:0.9rem;
+  }
+  label{font-size:0.8rem;color:var(--muted);margin-bottom:4px;display:block;}
+
+  .floating{
+    position:fixed;bottom:20px;right:16px;display:flex;flex-direction:column;
+    gap:10px;z-index:60;
+  }
+  .fab{
+    width:52px;height:52px;border-radius:50%;display:flex;
+    align-items:center;justify-content:center;font-size:1.3rem;color:#fff;
+    box-shadow:0 4px 14px rgba(0,0,0,0.4);
+  }
+  .fab-mail{background:var(--red);}
+  .fab-whatsapp{background:var(--green);}
+
+  footer{
+    padding:30px 16px;text-align:center;color:var(--muted);
+    font-size:0.8rem;border-top:1px solid var(--line);
+  }
+  footer a{margin:0 6px;}
+
+  @media(max-width:600px){
+    .form-row{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="brand">
+      <img src="https://taxiwal.com/logo-taxiwal.jpg" alt="Taxi Wal">
+      <div class="brand-name">Taxi Wal</div>
+      <span class="badge">La Louvière · Centre</span>
+    </div>
+    <div class="header-actions">
+      <a href="https://wa.me/32495353594" class="btn-whatsapp">WhatsApp</a>
+      <button class="menu-btn">☰</button>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-bg" style="background-image:url('https://taxiwal.com/hero-flotte.jpg');"></div>
+  <div class="hero-inner">
+    <h1>Taxi Wal La Louvière — <span>Navette Aéroport</span> & Chauffeur privé, quand vous en avez besoin</h1>
+    <p>Navette aéroport, trajets sur mesure, entreprises et événements. Véhicules confortables, chauffeurs professionnels, disponibles 24h/24 — 7j/7 sur La Louvière et tout le Centre.</p>
+    <div class="hero-ctas">
+      <a href="#reservation" class="btn btn-primary">Réserver une course</a>
+      <a href="https://wa.me/32495353594" class="btn btn-outline">WhatsApp direct</a>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="eyebrow">Pourquoi nous choisir</div>
+  <h2>Un service fiable sur La Louvière et le Centre</h2>
+  <div class="grid">
+    <div class="card" onclick="this.classList.toggle('open')">
+      <div class="card-icon">🕐</div>
+      <div class="card-title">24h/24 — 7j/7</div>
+      <div class="card-desc">Disponible à tout moment, jour et nuit.</div>
+    </div>
+    <div class="card" onclick="this.classList.toggle('open')">
+      <div class="card-icon">🤵</div>
+      <div class="card-title">Chauffeurs professionnels</div>
+      <div class="card-desc">Courtois, ponctuels et compétents.</div>
+    </div>
+    <div class="card" onclick="this.classList.toggle('open')">
+      <div class="card-icon">📱</div>
+      <div class="card-title">Réservation pratique</div>
+      <div class="card-desc">En ligne, par téléphone ou WhatsApp.</div>
+    </div>
+    <div class="card" onclick="this.classList.toggle('open')">
+      <div class="card-icon">⏱️</div>
+      <div class="card-title">Ponctualité</div>
+      <div class="card-desc">À l'heure, à chaque trajet.</div>
+    </div>
+    <div class="card" onclick="this.classList.toggle('open')">
+      <div class="card-icon">💶</div>
+      <div class="card-title">Tarifs officiels</div>
+      <div class="card-desc">Grille région wallonne, sans surprise.</div>
+    </div>
+    <div class="card" onclick="this.classList.toggle('open')">
+      <div class="card-icon">🚘</div>
+      <div class="card-title">Trajets confortables</div>
+      <div class="card-desc">Véhicules récents et bien entretenus.</div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="eyebrow">Ce que nous proposons</div>
+  <h2>Un service pour chaque situation</h2>
+  <div class="services-grid">
+    <div class="service-card"><span class="service-plus">+</span><div class="service-icon">✈️</div><strong>Navette aéroport</strong><p>Bruxelles, Charleroi, Liège, Lille, Paris et toute l'Europe. Départ La Louvière, hôtel, gare ou entreprise.</p></div>
+    <div class="service-card"><span class="service-plus">+</span><div class="service-icon">🤵</div><strong>Chauffeur privé</strong><p>Trajets sur mesure en Belgique, France, Allemagne et Pays-Bas.</p></div>
+    <div class="service-card"><span class="service-plus">+</span><div class="service-icon">♿</div><strong>Transport PMR</strong><p>Trajets adaptés aux personnes à mobilité réduite, avec assistance.</p></div>
+    <div class="service-card"><span class="service-plus">+</span><div class="service-icon">🏢</div><strong>Entreprises</strong><p>Déplacements de personnel et navettes régulières pour sociétés.</p></div>
+    <div class="service-card"><span class="service-plus">+</span><div class="service-icon">🥂</div><strong>Événements privés</strong><p>Mariages, fêtes, séminaires : véhicules pour vos occasions particulières.</p></div>
+    <div class="service-card"><span class="service-plus">+</span><div class="service-icon">🚉</div><strong>Transferts gares</strong><p>La Louvière-Sud, Mons, Bruxelles, Lille, Paris.</p></div>
+  </div>
+</section>
+
+<section>
+  <div class="eyebrow">Ma flotte</div>
+  <h2>Nos véhicules</h2>
+  <div class="fleet-grid">
+    <div class="fleet-card">
+      <img src="https://taxiwal.com/renault-trafic.jpg" alt="Renault Trafic 7 places">
+      <div class="fleet-card-body"><strong>Renault Trafic</strong><span>7 places — idéal familles et groupes</span></div>
+    </div>
+    <div class="fleet-card">
+      <img src="https://taxiwal.com/bmw-serie5.jpg" alt="BMW Série 5">
+      <div class="fleet-card-body"><strong>BMW Série 5</strong><span>Haut de gamme — confort affaires</span></div>
+    </div>
+    <div class="fleet-card">
+      <img src="https://taxiwal.com/mercedes-classe-e.jpg" alt="Mercedes Classe E">
+      <div class="fleet-card-body"><strong>Mercedes Classe E</strong><span>Haut de gamme — élégance et confort</span></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="eyebrow">Zone couverte</div>
+  <div class="accordion" onclick="this.classList.toggle('open')">
+    <div class="accordion-head">La Louvière et le Centre <span>+</span></div>
+    <div class="accordion-body">La Louvière, Houdeng-Aimeries, Houdeng-Goegnies, Haine-Saint-Paul, Haine-Saint-Pierre, Saint-Vaast, Strépy-Bracquegnies, Boussoit, Trivières, Maurage, Bracquegnies, Baume, Besonrieux et communes voisines du Centre (Manage, Le Roeulx, Chapelle-lez-Herlaimont, Binche, Morlanwelz).</div>
+  </div>
+  <div class="accordion" onclick="this.classList.toggle('open')">
+    <div class="accordion-head">Aéroports & grandes villes <span>+</span></div>
+    <div class="accordion-body">Bruxelles (Zaventem), Charleroi, Liège, Ostende, Lille, Paris, Luxembourg, Amsterdam, Cologne, Düsseldorf, Francfort, Londres.</div>
+  </div>
+</section>
+
+<section>
+  <div class="eyebrow">Ils nous font confiance</div>
+  <h2>Avis clients vérifiés sur Google</h2>
+  <div class="reviews-track">
+    <div class="review"><div class="stars">★★★★★</div><p>"Je recommande ++, chauffeur très accueillant et sympathique. Si je repasse dans le coin, je n'hésiterai pas."</p><div class="author">Marie Blanchart</div></div>
+    <div class="review"><div class="stars">★★★★★</div><p>"Trajet booké en urgence, le chauffeur a su se rendre disponible dans la demi-heure. Prix très correct et personne très professionnelle !"</p><div class="author">Axl</div></div>
+    <div class="review"><div class="stars">★★★★★</div><p>"Très contente du service, véhicules confortables, polis, sérieux, on peut compter sur eux."</p><div class="author">Isabelle Resplendino</div></div>
+    <div class="review"><div class="stars">★★★★★</div><p>"Un service au top ! Un grand professionnalisme et honnêteté ! 100% à recommander !"</p><div class="author">Pascale Palante</div></div>
+  </div>
+</section>
+
+<section id="reservation">
+  <div class="eyebrow">Réservation</div>
+  <h2>Réservez votre trajet</h2>
+  <div class="booking" style="text-align:center;">
+    <p style="color:var(--muted);margin-bottom:20px;">Réponse rapide garantie par téléphone ou WhatsApp — disponible 24h/24, 7j/7.</p>
+    <div class="hero-ctas">
+      <a href="tel:+32495353594" class="btn btn-primary">📞 0032 495 35 35 94</a>
+      <a href="https://wa.me/32495353594" class="btn btn-outline">💬 WhatsApp direct</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 Taxi Wal — La Louvière, Belgique · 0032 495 35 35 94 · infotaxiwal@gmail.com</p>
+</footer>
+
+<div class="floating">
+  <a href="tel:+32495353594" class="fab fab-mail">📞</a>
+  <a href="https://wa.me/32495353594" class="fab fab-whatsapp">💬</a>
+</div>
+
+</body>
+</html>

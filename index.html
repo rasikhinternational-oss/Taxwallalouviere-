@@ -7,17 +7,24 @@
 <meta name="description" content="Taxi Wal : chauffeur privé, navette aéroport, transport PMR, entreprises et événements. La Louvière, Centre (La Louvière). Réservation rapide, 24h/24.">
 <style>
   :root{
-    --bg:#0d0f10;
-    --bg-alt:#151819;
+    --bg:#151010;
+    --bg-alt:#211a17;
+    --bg-alt2:#1a201b;
     --red:#c8102e;
+    --red-glow:rgba(200,16,46,.18);
     --green:#1f8a4c;
+    --green-glow:rgba(31,138,76,.18);
     --text:#f4f4f2;
-    --muted:#b7bdb9;
-    --line:#242827;
+    --muted:#c3c2bd;
+    --line:#33302c;
   }
   *{box-sizing:border-box;margin:0;padding:0;}
   body{
-    background:var(--bg);
+    background:
+      radial-gradient(circle at 8% 0%, var(--red-glow), transparent 40%),
+      radial-gradient(circle at 95% 15%, var(--green-glow), transparent 45%),
+      var(--bg);
+    background-attachment:fixed;
     color:var(--text);
     font-family:'Segoe UI',Roboto,Arial,sans-serif;
     line-height:1.5;
@@ -53,7 +60,54 @@
     font-size:1.2rem;padding:6px 12px;border-radius:8px;cursor:pointer;
   }
 
-  .hero{
+  /* ---------- BARRE WHATSAPP ---------- */
+  #wa-topbar{
+    background:var(--green);color:#fff;text-align:center;
+    padding:9px 14px;font-size:.82rem;font-weight:600;
+  }
+  #wa-topbar a{display:inline-flex;align-items:center;gap:8px;justify-content:center;color:#fff;}
+  .wa-dot{width:10px;height:10px;border-radius:50%;background:#fff;animation:wa-bounce 1.4s infinite;flex-shrink:0;}
+  @keyframes wa-bounce{0%,100%{transform:scale(1);opacity:1;}50%{transform:scale(1.5);opacity:.6;}}
+
+  .navette-badge{
+    display:inline-flex;align-items:center;gap:6px;
+    background:var(--red);color:#fff;padding:7px 12px;border-radius:999px;
+    font-weight:700;font-size:.72rem;border:none;cursor:pointer;white-space:nowrap;
+  }
+
+  /* ---------- MENU LATÉRAL ---------- */
+  #menu-overlay{display:none;position:fixed;inset:0;background:rgba(10,8,7,.6);z-index:300;}
+  #menu-overlay.open{display:block;}
+  #side-menu{
+    position:fixed;top:0;right:0;bottom:0;width:320px;max-width:88vw;
+    background:var(--bg-alt);z-index:310;
+    box-shadow:-6px 0 24px rgba(0,0,0,.4);
+    transform:translateX(100%);transition:transform .25s ease;
+    overflow-y:auto;
+  }
+  #side-menu.open{transform:translateX(0);}
+  .side-menu-head{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:16px 18px;border-bottom:1px solid var(--line);
+  }
+  .side-menu-head strong{font-size:1.05rem;}
+  #side-menu-close{background:none;border:none;font-size:1.3rem;cursor:pointer;color:var(--muted);}
+  .side-menu-body{padding:12px 18px 28px;display:flex;flex-direction:column;gap:4px;}
+  .side-link{display:block;padding:12px 2px;font-weight:600;font-size:.92rem;border-bottom:1px solid var(--line);}
+  .side-accordion{border-bottom:1px solid var(--line);}
+  .side-accordion summary{
+    list-style:none;cursor:pointer;padding:12px 2px;
+    display:flex;align-items:center;justify-content:space-between;font-weight:600;font-size:.92rem;
+  }
+  .side-accordion summary::-webkit-details-marker{display:none;}
+  .side-accordion summary::after{content:"+";color:var(--red);font-size:1.1rem;}
+  .side-accordion[open] summary::after{content:"–";}
+  .side-accordion .side-accordion-content{padding:0 2px 14px;color:var(--muted);font-size:.84rem;}
+  .side-accordion .side-accordion-content p{margin-bottom:10px;}
+  .side-accordion .side-accordion-content .btn{width:100%;justify-content:center;}
+  .side-menu-sub-head{font-size:.68rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--green);margin:16px 0 4px;}
+
+
     position:relative;padding:60px 16px 40px;text-align:center;
     overflow:hidden;border-bottom:1px solid var(--line);
   }
@@ -80,43 +134,49 @@
   .btn-primary{background:var(--red);color:#fff;}
   .btn-outline{background:transparent;color:var(--text);border:1px solid var(--line);}
 
-  section{padding:44px 16px;max-width:1100px;margin:0 auto;}
+  section{padding:28px 16px;max-width:1100px;margin:0 auto;}
   .eyebrow{
     color:var(--green);font-size:0.75rem;font-weight:700;
     letter-spacing:0.08em;text-transform:uppercase;margin-bottom:6px;
   }
-  h2{font-size:1.4rem;margin-bottom:20px;}
+  h2{font-size:1.3rem;margin-bottom:14px;}
 
   .grid{
-    display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
-    gap:12px;
+    display:grid;grid-template-columns:repeat(3,1fr);
+    gap:8px;
   }
   .card{
-    background:var(--bg-alt);border:1px solid var(--line);
-    border-radius:12px;padding:16px;cursor:pointer;
+    background:var(--bg-alt);border:1px solid var(--line);border-top:3px solid var(--red);
+    border-radius:10px;padding:10px 8px;cursor:pointer;text-align:center;
     transition:border-color .2s;
   }
+  .card:nth-child(even){border-top-color:var(--green);}
   .card:hover{border-color:var(--red);}
-  .card-icon{font-size:1.4rem;margin-bottom:8px;}
-  .card-title{font-weight:600;font-size:0.92rem;}
-  .card-desc{color:var(--muted);font-size:0.82rem;margin-top:6px;display:none;}
+  .card-icon{font-size:1.1rem;margin-bottom:4px;}
+  .card-title{font-weight:600;font-size:0.72rem;line-height:1.25;}
+  .card-desc{color:var(--muted);font-size:0.7rem;margin-top:6px;display:none;line-height:1.35;}
   .card.open .card-desc{display:block;}
 
   .services-grid{
-    display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
-    gap:12px;
+    display:grid;grid-template-columns:repeat(3,1fr);
+    gap:8px;
   }
   .service-card{
-    background:var(--bg-alt);border:1px solid var(--line);
-    border-radius:12px;padding:18px;position:relative;cursor:pointer;
+    background:var(--bg-alt);border:1px solid var(--line);border-top:3px solid var(--green);
+    border-radius:10px;padding:10px 8px;position:relative;cursor:pointer;text-align:center;
   }
+  .service-card:nth-child(even){border-top-color:var(--red);}
   .service-plus{
-    position:absolute;top:10px;right:10px;width:20px;height:20px;
+    position:absolute;top:6px;right:6px;width:15px;height:15px;
     border-radius:50%;background:var(--red);color:#fff;
-    display:flex;align-items:center;justify-content:center;font-size:0.85rem;
+    display:flex;align-items:center;justify-content:center;font-size:0.65rem;
   }
-  .service-icon{font-size:1.4rem;margin-bottom:8px;}
-  .service-card p{color:var(--muted);font-size:0.85rem;margin-top:6px;}
+  .service-icon{font-size:1.1rem;margin-bottom:4px;}
+  .service-card strong{font-size:0.72rem;}
+  .service-card p{
+    color:var(--muted);font-size:0.66rem;margin-top:4px;line-height:1.3;
+    display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;
+  }
 
   /* Fleet */
   .fleet-grid{
@@ -189,27 +249,80 @@
 </head>
 <body>
 
+<div id="wa-topbar">
+  <a href="https://wa.me/32495353594">
+    <span class="wa-dot"></span>
+    Réservez en 1 message sur WhatsApp — réponse rapide garantie !
+  </a>
+</div>
 <header>
   <div class="header-inner">
     <div class="brand">
       <img src="logo-hero.jpg" alt="Taxi Wal La Louvière">
       <div class="brand-name">Taxi Wal</div>
       <span class="badge">La Louvière · Centre</span>
+      <button class="navette-badge" onclick="location.hash='reservation'" type="button">✈️ Navette Aéroport</button>
     </div>
     <div class="header-actions">
       <a href="https://wa.me/32495353594" class="btn-whatsapp">WhatsApp</a>
-      <button class="menu-btn">☰</button>
+      <button class="menu-btn" id="menu-toggle">☰</button>
     </div>
   </div>
 </header>
 
-<section class="hero">
-  <div class="hero-bg">
-    <div class="hero-slide active" style="background-image:url('flotte-groupe.jpg');"></div>
-    <div class="hero-slide" style="background-image:url('hero-2.jpg');"></div>
-    <div class="hero-slide" style="background-image:url('hero-3.jpg');"></div>
-    <div class="hero-slide" style="background-image:url('hero-4.jpg');"></div>
+<div id="menu-overlay"></div>
+<div id="side-menu">
+  <div class="side-menu-head">
+    <strong>Menu</strong>
+    <button id="side-menu-close" aria-label="Fermer le menu">✕</button>
   </div>
+  <div class="side-menu-body">
+    <a href="#" class="side-link" data-close-menu>🏠 Taxi Wal La Louvière — Accueil</a>
+
+    <details class="side-accordion">
+      <summary>✈️ Navette Aéroport</summary>
+      <div class="side-accordion-content">
+        <p>Bruxelles-Zaventem, Charleroi, Liège, Lille, Paris. Prise en charge à domicile, hôtel, gare ou entreprise.</p>
+        <a href="#reservation" class="btn btn-primary" data-close-menu>Demander un devis</a>
+      </div>
+    </details>
+
+    <details class="side-accordion">
+      <summary>♿ Transport PMR</summary>
+      <div class="side-accordion-content">
+        <p>Trajets adaptés aux personnes à mobilité réduite, avec assistance et prise en charge attentive.</p>
+        <a href="#reservation" class="btn btn-primary" data-close-menu>Demander un devis</a>
+      </div>
+    </details>
+
+    <details class="side-accordion">
+      <summary>🚌 Voyages organisés & groupes</summary>
+      <div class="side-accordion-content">
+        <p>Sorties pour seniors, maisons de repos et groupes : mer, parcs, visites de ville, partout en Belgique.</p>
+        <a href="#reservation" class="btn btn-primary" data-close-menu>Demander un devis</a>
+      </div>
+    </details>
+
+    <details class="side-accordion">
+      <summary>🏢 Entreprises</summary>
+      <div class="side-accordion-content">
+        <p>Déplacements de personnel, comptes professionnels et navettes régulières.</p>
+        <a href="#reservation" class="btn btn-primary" data-close-menu>Demander un devis</a>
+      </div>
+    </details>
+
+    <div class="side-menu-sub-head">Navigation rapide</div>
+    <a href="#" class="side-link" data-close-menu onclick="document.querySelector('.services-grid').scrollIntoView({behavior:'smooth'})">Nos services</a>
+    <a href="#" class="side-link" data-close-menu onclick="document.querySelector('.fleet-grid').scrollIntoView({behavior:'smooth'})">Flotte</a>
+    <a href="#" class="side-link" data-close-menu onclick="document.querySelector('.accordion').scrollIntoView({behavior:'smooth'})">Zone couverte</a>
+    <a href="#reservation" class="side-link" data-close-menu>Réservation</a>
+
+    <a href="https://wa.me/32495353594" target="_blank" rel="noopener" class="btn btn-outline" style="margin-top:18px;justify-content:center;display:flex;">💬 WhatsApp direct</a>
+  </div>
+</div>
+
+<section class="hero">
+  <div class="hero-bg" id="hero-slides"></div>
   <div class="hero-inner">
     <h1>Taxi Wal La Louvière — <span>Navette Aéroport</span> & Chauffeur privé, quand vous en avez besoin</h1>
     <p>Navette aéroport, trajets sur mesure, entreprises et événements. Véhicules confortables, chauffeurs professionnels, disponibles 24h/24 — 7j/7 sur La Louvière et tout le Centre.</p>
@@ -363,13 +476,44 @@
 </div>
 
 <script>
-  let heroSlide = 0;
-  const heroSlides = document.querySelectorAll('.hero-slide');
-  setInterval(() => {
-    heroSlides[heroSlide].classList.remove('active');
-    heroSlide = (heroSlide + 1) % heroSlides.length;
-    heroSlides[heroSlide].classList.add('active');
-  }, 4000);
+  // ---------- MENU LATÉRAL ----------
+  const menuToggle = document.getElementById("menu-toggle");
+  const sideMenu = document.getElementById("side-menu");
+  const menuOverlay = document.getElementById("menu-overlay");
+  function openSideMenu(){ sideMenu.classList.add("open"); menuOverlay.classList.add("open"); }
+  function closeSideMenu(){ sideMenu.classList.remove("open"); menuOverlay.classList.remove("open"); }
+  if(menuToggle){ menuToggle.addEventListener("click", openSideMenu); }
+  document.getElementById("side-menu-close").addEventListener("click", closeSideMenu);
+  menuOverlay.addEventListener("click", closeSideMenu);
+  document.querySelectorAll("[data-close-menu]").forEach(el => el.addEventListener("click", closeSideMenu));
+
+  // ---------- DIAPORAMA HERO (même logique que taxiwal.com) ----------
+  const heroPhotos = [
+    "flotte-groupe.jpg",
+    "hero-2.jpg",
+    "hero-3.jpg",
+    "hero-4.jpg",
+    "bmw-serie5.jpg",
+    "mercedes-classe-e.jpg",
+    "renault-trafic.jpg",
+    "toyota-corolla.jpg"
+  ];
+  const heroContainer = document.getElementById("hero-slides");
+  if(heroContainer){
+    heroPhotos.forEach((src, i) => {
+      const div = document.createElement("div");
+      div.className = "hero-slide" + (i === 0 ? " active" : "");
+      div.style.backgroundImage = `url('${src}')`;
+      heroContainer.appendChild(div);
+    });
+    const slides = heroContainer.querySelectorAll(".hero-slide");
+    let heroIndex = 0;
+    setInterval(() => {
+      slides[heroIndex].classList.remove("active");
+      heroIndex = (heroIndex + 1) % slides.length;
+      slides[heroIndex].classList.add("active");
+    }, 2800);
+  }
 
   // ---------- FORMULAIRE DE RÉSERVATION (EmailJS, mêmes identifiants que taxiwal.com) ----------
   const EMAILJS_SERVICE_ID = "service_i9j07f9";

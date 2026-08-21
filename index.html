@@ -156,6 +156,12 @@
     background:var(--bg);color:var(--text);font-size:0.9rem;
   }
   label{font-size:0.8rem;color:var(--muted);margin-bottom:4px;display:block;}
+  #booking-form{margin-bottom:12px;}
+  #booking-form > div{margin-bottom:12px;}
+  .form-actions{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:4px;}
+  #booking-status{display:none;margin-top:14px;padding:12px 14px;border-radius:8px;font-size:.88rem;text-align:left;}
+  #booking-status.ok{display:block;background:rgba(31,138,76,.15);color:#6FDB94;}
+  #booking-status.err{display:block;background:rgba(200,16,46,.15);color:#FF7A7F;}
 
   .floating{
     position:fixed;bottom:20px;right:16px;display:flex;flex-direction:column;
@@ -179,6 +185,7 @@
     .form-row{grid-template-columns:1fr;}
   }
 </style>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 </head>
 <body>
 
@@ -260,6 +267,7 @@
     <div class="service-card"><span class="service-plus">+</span><div class="service-icon">🏢</div><strong>Entreprises</strong><p>Déplacements de personnel et navettes régulières pour sociétés.</p></div>
     <div class="service-card"><span class="service-plus">+</span><div class="service-icon">🥂</div><strong>Événements privés</strong><p>Mariages, fêtes, séminaires : véhicules pour vos occasions particulières.</p></div>
     <div class="service-card"><span class="service-plus">+</span><div class="service-icon">🚉</div><strong>Transferts gares</strong><p>La Louvière-Sud, Mons, Bruxelles, Lille, Paris.</p></div>
+    <div class="service-card"><span class="service-plus">+</span><div class="service-icon">🚌</div><strong>Voyages organisés & groupes</strong><p>Sorties pour seniors, maisons de repos et groupes : mer, parcs, visites de ville, partout en Belgique.</p></div>
   </div>
 </section>
 
@@ -312,10 +320,34 @@
 <section id="reservation">
   <div class="eyebrow">Réservation</div>
   <h2>Réservez votre trajet</h2>
-  <div class="booking" style="text-align:center;">
-    <p style="color:var(--muted);margin-bottom:20px;">Réponse rapide garantie par téléphone ou WhatsApp — disponible 24h/24, 7j/7.</p>
+  <div class="booking">
+    <p style="color:var(--muted);margin-bottom:20px;text-align:center;">Remplissez le formulaire ou contactez-nous directement — réponse rapide garantie, 24h/24, 7j/7.</p>
+    <form id="booking-form">
+      <div class="form-row">
+        <div><label for="ll-nom">Nom et prénom</label><input id="ll-nom" required></div>
+        <div><label for="ll-tel">Téléphone</label><input id="ll-tel" type="tel" required></div>
+      </div>
+      <div>
+        <label for="ll-depart">Adresse de départ</label><input id="ll-depart" required>
+      </div>
+      <div>
+        <label for="ll-dest">Destination</label><input id="ll-dest" required>
+      </div>
+      <div class="form-row">
+        <div><label for="ll-date">Date</label><input id="ll-date" type="date" required></div>
+        <div><label for="ll-passagers">Nombre de passagers</label><input id="ll-passagers" type="number" min="1" value="1" required></div>
+      </div>
+      <div>
+        <label for="ll-message">Message (optionnel)</label>
+        <textarea id="ll-message" rows="3" placeholder="Bagages, PMR, événement, aller-retour..."></textarea>
+      </div>
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary">Envoyer la demande</button>
+      </div>
+      <div id="booking-status"></div>
+    </form>
     <div class="hero-ctas">
-      <a href="tel:+32495353594" class="btn btn-primary">📞 0032 495 35 35 94</a>
+      <a href="tel:+32495353594" class="btn btn-outline">📞 0032 495 35 35 94</a>
       <a href="https://wa.me/32495353594" class="btn btn-outline">💬 WhatsApp direct</a>
     </div>
   </div>
@@ -338,6 +370,47 @@
     heroSlide = (heroSlide + 1) % heroSlides.length;
     heroSlides[heroSlide].classList.add('active');
   }, 4000);
+
+  // ---------- FORMULAIRE DE RÉSERVATION (EmailJS, mêmes identifiants que taxiwal.com) ----------
+  const EMAILJS_SERVICE_ID = "service_i9j07f9";
+  const EMAILJS_TEMPLATE_ID = "template_rwz9fh7";
+  const EMAILJS_PUBLIC_KEY = "4M5btJLpy3Lo8I1t5";
+  const CONTACT_EMAIL = "infotaxiwal@gmail.com";
+  const WHATSAPP_NUMERO = "32495353594";
+
+  const bookingForm = document.getElementById("booking-form");
+  if(bookingForm){
+    bookingForm.addEventListener("submit", function(e){
+      e.preventDefault();
+      const bookingStatus = document.getElementById("booking-status");
+      const btn = bookingForm.querySelector("button[type=submit]");
+      btn.disabled = true;
+      bookingStatus.className = "";
+      bookingStatus.textContent = "";
+
+      const params = {
+        name: document.getElementById("ll-nom").value,
+        phone: document.getElementById("ll-tel").value,
+        depart: document.getElementById("ll-depart").value,
+        arrivee: document.getElementById("ll-dest").value,
+        date: document.getElementById("ll-date").value,
+        message: (document.getElementById("ll-passagers").value ? "Passagers : " + document.getElementById("ll-passagers").value + ". " : "") + document.getElementById("ll-message").value + " (via taxiwallalouviere.be)"
+      };
+
+      emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, params, EMAILJS_PUBLIC_KEY)
+        .then(() => {
+          btn.disabled = false;
+          bookingStatus.className = "ok";
+          bookingStatus.textContent = "✅ Merci ! Votre demande a bien été envoyée, nous vous répondons rapidement.";
+          bookingForm.reset();
+        })
+        .catch((err) => {
+          btn.disabled = false;
+          bookingStatus.className = "err";
+          bookingStatus.innerHTML = `⚠️ L'envoi a échoué. Contactez-nous directement par <a href="mailto:${CONTACT_EMAIL}" style="text-decoration:underline;">email</a> ou <a href="https://wa.me/${WHATSAPP_NUMERO}" target="_blank" rel="noopener" style="text-decoration:underline;">WhatsApp</a>.`;
+        });
+    });
+  }
 </script>
 
 </body>
